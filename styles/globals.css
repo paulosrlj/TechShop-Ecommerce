@@ -22,7 +22,7 @@ a {
   width: 100%;
 }
 .layout {
-  padding: 10px;
+  padding: 10px 60px;
 }
 
 .navbar-container {
@@ -117,6 +117,7 @@ span.text-red {
   background-color: #ebebeb;
   transform: scale(1, 1);
   transition: transform 0.5s ease;
+  position: relative;
 }
 
 .product-name {
@@ -234,18 +235,20 @@ span.text-red {
 }
 .banner-desc .left h3 {
   font-weight: 900;
-  font-size: 80px;
+  font-size: 60px;
   margin-left: 25px;
 }
 .banner-desc .left p {
   margin: 18px;
 }
+
+
 .footer-banner-image {
   position: absolute;
   /* top: -35%;
   left: 8%; */
-  top: -25%;
-  left: 25%;
+  top: -10%;
+  left: 30%;
 }
 .banner-desc .right {
   line-height: 1.4;
