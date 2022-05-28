@@ -409,6 +409,7 @@ span.text-red {
 }
 .product-detail-container {
   display: flex;
+  justify-content: space-evenly;
   gap: 40px;
   margin: 40px;
   margin-top: 60px;
