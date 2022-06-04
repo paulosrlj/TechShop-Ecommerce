@@ -9,7 +9,7 @@ const Context = createContext();
 export default function StateContext({ children }) {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
 
@@ -39,6 +39,41 @@ export default function StateContext({ children }) {
     toast.success(`${qty} ${product.name} added to the cart`);
   };
 
+  const onRemove = (product) => {
+    const foundProduct = cartItems.find((item) => item._id === product._id);
+    const newCartItems = cartItems.filter((item) => item._id !== product._id);
+
+    setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity);
+    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity);
+    setCartItems(newCartItems);
+  };
+
+  const toggleCartItemQuantity = (id, value) => {
+    const foundProduct = cartItems.find((item) => item._id === id);
+    const index = cartItems.findIndex((product) => product._id === id);
+
+    const newCartItems = cartItems.filter((item) => item._id !== id);
+
+    const correctItemsOrder = [...newCartItems];
+    let product = null;
+
+    if (value === 'inc') {
+      product = { ...foundProduct, quantity: foundProduct.quantity + 1 };
+      correctItemsOrder.splice(index, 0, product);
+      setCartItems(correctItemsOrder);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
+      setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
+    } else if (value === 'desc') {
+      if (foundProduct.quantity > 1) {
+        product = { ...foundProduct, quantity: foundProduct.quantity - 1 };
+        correctItemsOrder.splice(index, 0, product);
+        setCartItems(correctItemsOrder);
+        setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
+        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
+      }
+    }
+  };
+
   const incQty = () => {
     setQty((prevQty) => prevQty + 1);
   };
@@ -65,6 +100,8 @@ export default function StateContext({ children }) {
     totalQuantities,
     qty,
     onAdd,
+    toggleCartItemQuantity,
+    onRemove,
   }), [showCart,
     cartItems,
     totalPrice,
