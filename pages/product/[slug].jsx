@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import {
@@ -21,7 +20,7 @@ function ProductDetails({ product, products }) {
   const [index, setIndex] = useState(0);
 
   const {
-    decQty, incQty, qty, setQty,
+    decQty, incQty, qty, setQty, onAdd,
   } = useStateContext();
 
   useEffect(() => {
@@ -91,7 +90,7 @@ function ProductDetails({ product, products }) {
             </p>
           </div>
           <div className="buttons">
-            <button className="add-to-cart" type="button" onClick="">
+            <button className="add-to-cart" type="button" onClick={() => onAdd(product, qty)}>
               Adicionar ao carrinho
             </button>
             <button className="buy-now" type="button" onClick="">
