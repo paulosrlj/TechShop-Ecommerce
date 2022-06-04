@@ -1,19 +1,32 @@
 /* eslint-disable no-underscore-dangle */
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineStar,
 } from 'react-icons/ai';
+import { useRouter } from 'next/router';
 import { client, urlFor } from '../../lib/client';
 
 import Product from '../../components/Product';
+import { useStateContext } from '../../context/StateContext';
 
 function ProductDetails({ product, products }) {
+  const router = useRouter();
+  const { slug } = router.query;
+
   const {
-    image, name, details, price, _id: id,
+    image, name, details, price,
   } = product;
 
   const [index, setIndex] = useState(0);
+
+  const {
+    decQty, incQty, qty, setQty,
+  } = useStateContext();
+
+  useEffect(() => {
+    setQty(0);
+  }, [slug]);
 
   return (
     <div>
@@ -31,7 +44,7 @@ function ProductDetails({ product, products }) {
 
           <div className="small-images-container">
             {image?.map((item, i) => (
-              <div key={`item#${id}`}>
+              <div key={`image#${Math.random() * 10}`}>
                 <Image
                   src={urlFor(item).url()}
                   className={i === index ? 'small-image selected-image' : 'small-image'}
@@ -70,11 +83,11 @@ function ProductDetails({ product, products }) {
           <div className="quantity">
             <h3>Quantidade: </h3>
             <p className="quantity-desc">
-              <span className="minus" onClick=""><AiOutlineMinus /></span>
+              <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
               <span className="num" onClick="">
-                0
+                {qty}
               </span>
-              <span className="plus" onClick=""><AiOutlinePlus /></span>
+              <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
             </p>
           </div>
           <div className="buttons">
