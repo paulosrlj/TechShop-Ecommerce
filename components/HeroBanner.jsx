@@ -5,6 +5,7 @@ import { urlFor } from '../lib/client';
 
 function HeroBanner({ heroBanner }) {
   const bannerUrl = urlFor(heroBanner.image).url();
+
   return (
     <div className="hero-banner-container">
       <div>
@@ -16,7 +17,7 @@ function HeroBanner({ heroBanner }) {
         </div>
 
         <div>
-          <Link href={`/products/${heroBanner.product}`}>
+          <Link href={`/product/${heroBanner.product.replace(/ /gi, '-').toLowerCase()}`}>
             <button type="button">{heroBanner.buttonText}</button>
           </Link>
           <div className="desc">

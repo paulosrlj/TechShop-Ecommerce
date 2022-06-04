@@ -20,12 +20,17 @@ function ProductDetails({ product, products }) {
   const [index, setIndex] = useState(0);
 
   const {
-    decQty, incQty, qty, setQty, onAdd,
+    decQty, incQty, qty, setQty, onAdd, setShowCart,
   } = useStateContext();
 
   useEffect(() => {
     setQty(0);
   }, [slug]);
+
+  const handleBuyNow = () => {
+    onAdd(product, qty);
+    setShowCart(true);
+  };
 
   return (
     <div>
@@ -83,7 +88,7 @@ function ProductDetails({ product, products }) {
             <h3>Quantidade: </h3>
             <p className="quantity-desc">
               <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
-              <span className="num" onClick="">
+              <span className="num">
                 {qty}
               </span>
               <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
@@ -93,7 +98,7 @@ function ProductDetails({ product, products }) {
             <button className="add-to-cart" type="button" onClick={() => onAdd(product, qty)}>
               Adicionar ao carrinho
             </button>
-            <button className="buy-now" type="button" onClick="">
+            <button className="buy-now" type="button" onClick={() => handleBuyNow()}>
               Comprar agora
             </button>
           </div>
